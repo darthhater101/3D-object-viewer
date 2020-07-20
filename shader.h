@@ -17,5 +17,6 @@ public:
     void setAttributeBuffer(int location, int count);
     void disableAttributeArray(int location);
     void setMat4x4(const char* name, QMatrix4x4 &value);
+    void setVec3(const char* name, QVector3D &value);
 };
 

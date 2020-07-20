@@ -57,3 +57,8 @@ void Shader::setMat4x4(const char *name, QMatrix4x4 &value)
 {
     program.setUniformValue(name, value);
 }
+
+void Shader::setVec3(const char *name, QVector3D &value)
+{
+    program.setUniformValue(name, value);
+}

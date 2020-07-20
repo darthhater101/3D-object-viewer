@@ -6,7 +6,7 @@ GLWindow::GLWindow(QWidget *parent) : QOpenGLWidget(parent)
     letfPressed = false;
     rightPressed = false;
     setMouseTracking(true);
-    camera = new Camera(83.25f, 0.0f);
+    camera = new Camera(84.0f, -0.4f);
     //QTimer* timer = new QTimer(this);
     //connect(timer, &QTimer::timeout, this, &GLWindow::paintGL);
     //timer->start(16);

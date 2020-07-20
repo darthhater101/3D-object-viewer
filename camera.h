@@ -30,13 +30,15 @@ private:
 public:
 
     Camera(float yaw, float pitch,
-           QVector3D position = QVector3D(0.0f, 0.0f, -3.0f),
+           QVector3D position = QVector3D(3.5f, 2.5f, -4.0f),
            QVector3D up = QVector3D(0.0f, 1.0f, 0.0f));
     ~Camera() {};
 
     QMatrix4x4 getViewMat();
     void moveView(float xoffset, float yoffset);
     void move(CameraMove direction);
+
+    QVector3D getPosition() { return position; }
 
 private:
     void update();

@@ -31,6 +31,9 @@ Camera::Camera(float yaw, float pitch,
      if(pitch < -89.0f)
          pitch = -89.0f;
 
+     qDebug() << pitch;
+     qDebug() << yaw;
+
      update();
  }
 
@@ -48,6 +51,8 @@ Camera::Camera(float yaw, float pitch,
          position += speed * up;
      if(direction == DOWN)
          position -= speed * up;
+
+     qDebug() << position;
  }
 
  void Camera::update()

@@ -16,4 +16,16 @@ Model::Model(const QString& meshPath, const QString& shaderPath)
     shader->disableAttributeArray(0);
     mesh->unBindVbo(0);
     shader->unbind();
+
+    shader->use();
+    mesh->bindVao();
+
+        mesh->bindVbo(1);
+        shader->enableAttributeArray(1);
+        shader->setAttributeBuffer(1, 3);
+
+    mesh->unBindVao();
+    shader->disableAttributeArray(1);
+    mesh->unBindVbo(1);
+    shader->unbind();
 }

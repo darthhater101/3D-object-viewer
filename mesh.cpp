@@ -28,6 +28,13 @@ Mesh::Mesh(const QString& path)
     vbo[0].allocate(mVertices.data(), mVertices.size() * sizeof(mVertices[0]));
     vbo[0].release();
 
+    vbo[1] = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    vbo[1].create();
+    vbo[1].bind();
+    vbo[1].setUsagePattern(QOpenGLBuffer::StaticDraw);
+    vbo[1].allocate(mNormals.data(), mNormals.size() * sizeof(mNormals[0]));
+    vbo[1].release();
+
     vao.create();
 }
 
