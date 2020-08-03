@@ -1,5 +1,4 @@
-#ifndef MODEL_H
-#define MODEL_H
+#pragma once
 
 #include "object.h"
 
@@ -8,7 +7,6 @@
 class Model : public Object
 {
 public:
-    Model(const QString& meshPath, const QString& shaderPath);
+    Model(QVector3D pos, float scale, const QString& meshPath, const QString& shaderPath);
 };
 
-#endif // MODEL_H

@@ -1,5 +1,7 @@
 #include "glwindow.h"
-#include <QTimer>
+#include <QDebug>
+
+#include <algorithm>
 
 GLWindow::GLWindow(QWidget *parent) : QOpenGLWidget(parent)
 {
@@ -7,21 +9,19 @@ GLWindow::GLWindow(QWidget *parent) : QOpenGLWidget(parent)
     rightPressed = false;
     setMouseTracking(true);
     camera = new Camera(84.0f, -0.4f);
-    //QTimer* timer = new QTimer(this);
-    //connect(timer, &QTimer::timeout, this, &GLWindow::paintGL);
-    //timer->start(16);
+
+    connect(&t, SIGNAL(timeout()), this, SLOT(update()));
+    t.start(16);
 }
 
 void GLWindow::initializeGL()
 {
-    glClearColor(0.6, 0.6, 0.6, 1);
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);
-    scene.push_back(Model("C:/Users/razer/Desktop/untitled.obj", "C:/Users/razer/Documents/Modeller3D/shaders/basic"));
-    //scene.push_back(Cube());
 }
 
 void GLWindow::paintGL()
@@ -59,7 +59,6 @@ void GLWindow::mouseMoveEvent(QMouseEvent *event)
 
         camera->moveView(xoffset, yoffset);
 
-        update();
     }
     if(rightPressed)
     {
@@ -76,8 +75,6 @@ void GLWindow::mouseMoveEvent(QMouseEvent *event)
             camera->move(CameraMove::UP);
         if(yoffset < 0)
             camera->move(CameraMove::DOWN);
-
-        update();
     }
 }
 
@@ -110,8 +107,27 @@ void GLWindow::mouseReleaseEvent(QMouseEvent *event)
 void GLWindow::wheelEvent(QWheelEvent *event)
 {
     if(event->angleDelta().y() > 0)
-        camera->move(CameraMove::FORWARD);
+        camera->zoom();
+        //camera->move(CameraMove::FORWARD);
     else if(event->angleDelta().y() < 0)
-        camera->move(CameraMove::BACKWARD);
-    update();
+        camera->unzoom();
+        //camera->move(CameraMove::BACKWARD);
+    //update();
+}
+
+void GLWindow::setCurrentScene(const QVector<Object> scene)
+{
+    this->scene = scene;
+}
+
+QVector<Object> GLWindow::getCurrentScene()
+{
+    return scene;
+}
+
+void GLWindow::deleteObject(const int id)
+{
+    scene.erase(std::remove_if(scene.begin(), scene.end(), [&](Object object){
+                    return object.getId() == id;
+    }));
 }

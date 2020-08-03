@@ -31,9 +31,6 @@ Camera::Camera(float yaw, float pitch,
      if(pitch < -89.0f)
          pitch = -89.0f;
 
-     qDebug() << pitch;
-     qDebug() << yaw;
-
      update();
  }
 
@@ -51,8 +48,19 @@ Camera::Camera(float yaw, float pitch,
          position += speed * up;
      if(direction == DOWN)
          position -= speed * up;
+ }
 
-     qDebug() << position;
+ void Camera::zoom()
+ {
+     zoomCoef += 0.5;
+ }
+
+ void Camera::unzoom()
+ {
+     if(zoomCoef <= 0)
+         zoomCoef = 0;
+     else
+         zoomCoef -= 0.5f;
  }
 
  void Camera::update()

@@ -1,9 +1,11 @@
 #include "model.h"
 
-Model::Model(const QString& meshPath, const QString& shaderPath)
+Model::Model(QVector3D pos, float scale, const QString& meshPath, const QString& shaderPath) : Object(pos, scale)
 {
     mesh = QSharedPointer<Mesh>(new Mesh(meshPath));
     shader = QSharedPointer<Shader>(new Shader(shaderPath));
+
+    name = "Model";
 
     shader->use();
     mesh->bindVao();

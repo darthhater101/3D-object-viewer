@@ -15,7 +15,6 @@ private:
     QOpenGLVertexArrayObject vao;
 
 public:
-    Mesh(QVector<float> vertices);
     Mesh(const QString& path);
     ~Mesh() {}
 

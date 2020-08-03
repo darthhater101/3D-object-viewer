@@ -5,53 +5,14 @@
 class Cube : public Object
 {
 public:
-    Cube() : Object()
+    Cube(QVector3D pos, float scale) : Object(pos, scale)
     {
+        mesh = QSharedPointer<Mesh>(
+                    new Mesh ("C:/Users/razer/Documents/Modeller3D/meshes/cube.obj"));
+        shader = QSharedPointer<Shader>(
+                    new Shader("C:/Users/razer/Documents/Modeller3D/shaders/basic"));
 
-        mesh = QSharedPointer<Mesh>(new Mesh ({
-                                                 -0.5f, -0.5f, -0.5f,
-                                                  0.5f, -0.5f, -0.5f,
-                                                  0.5f,  0.5f, -0.5f,
-                                                  0.5f,  0.5f, -0.5f,
-                                                 -0.5f,  0.5f, -0.5f,
-                                                 -0.5f, -0.5f, -0.5f,
-
-                                                 -0.5f, -0.5f,  0.5f,
-                                                  0.5f, -0.5f,  0.5f,
-                                                  0.5f,  0.5f,  0.5f,
-                                                  0.5f,  0.5f,  0.5f,
-                                                 -0.5f,  0.5f,  0.5f,
-                                                 -0.5f, -0.5f,  0.5f,
-
-                                                 -0.5f,  0.5f,  0.5f,
-                                                 -0.5f,  0.5f, -0.5f,
-                                                 -0.5f, -0.5f, -0.5f,
-                                                 -0.5f, -0.5f, -0.5f,
-                                                 -0.5f, -0.5f,  0.5f,
-                                                 -0.5f,  0.5f,  0.5f,
-
-                                                  0.5f,  0.5f,  0.5f,
-                                                  0.5f,  0.5f, -0.5f,
-                                                  0.5f, -0.5f, -0.5f,
-                                                  0.5f, -0.5f, -0.5f,
-                                                  0.5f, -0.5f,  0.5f,
-                                                  0.5f,  0.5f,  0.5f,
-
-                                                 -0.5f, -0.5f, -0.5f,
-                                                  0.5f, -0.5f, -0.5f,
-                                                  0.5f, -0.5f,  0.5f,
-                                                  0.5f, -0.5f,  0.5f,
-                                                 -0.5f, -0.5f,  0.5f,
-                                                 -0.5f, -0.5f, -0.5f,
-
-                                                 -0.5f,  0.5f, -0.5f,
-                                                  0.5f,  0.5f, -0.5f,
-                                                  0.5f,  0.5f,  0.5f,
-                                                  0.5f,  0.5f,  0.5f,
-                                                 -0.5f,  0.5f,  0.5f,
-                                                 -0.5f,  0.5f, -0.5f
-                                             }));
-        shader = QSharedPointer<Shader>(new Shader("C:/Users/razer/Documents/Modeller3D/shaders/basic"));
+        name = "Cube";
 
         shader->use();
         mesh->bindVao();
@@ -63,6 +24,15 @@ public:
         mesh->unBindVbo(0);
         shader->unbind();
 
+        shader->use();
+        mesh->bindVao();
+            mesh->bindVbo(1);
+            shader->enableAttributeArray(1);
+            shader->setAttributeBuffer(1, 3);
+        mesh->unBindVao();
+        shader->disableAttributeArray(1);
+        mesh->unBindVbo(1);
+        shader->unbind();
     }
 };
 

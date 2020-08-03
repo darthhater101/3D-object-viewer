@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     camera.cpp \
     glwindow.cpp \
+    inputdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     mesh.cpp \
@@ -29,6 +30,8 @@ HEADERS += \
     camera.h \
     cube.h \
     glwindow.h \
+    inputdialog.h \
+    listitem.h \
     mainwindow.h \
     mesh.h \
     model.h \

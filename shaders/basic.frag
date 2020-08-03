@@ -10,7 +10,7 @@ void main()
 {
     //color = vec4(0.5f, 0.13f, 0.83f, 1.0f);
 
-    vec3 lightPos = vec3(CameraPos.x + 2.5f, CameraPos.y, CameraPos.z + 1.5f);
+    vec3 lightPos = vec3(CameraPos.x, CameraPos.y, CameraPos.z);
     vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
     vec3 objectColor = vec3(0.5f, 0.13f, 0.83f);
 

@@ -5,18 +5,6 @@
 #include <QVector3D>
 #include <QVector2D>
 
-Mesh::Mesh(QVector<float> vertices) : mVertices(vertices)
-{
-    vbo[0] = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    vbo[0].create();
-    vbo[0].bind();
-    vbo[0].setUsagePattern(QOpenGLBuffer::StaticDraw);
-    vbo[0].allocate(vertices.data(), vertices.size() * sizeof(vertices[0]));
-    vbo[0].release();
-
-    vao.create();
-}
-
 Mesh::Mesh(const QString& path)
 {
     load(path);
@@ -71,7 +59,7 @@ void Mesh::load(const QString& path)
 
     if(!file.open(QIODevice::ReadOnly))
     {
-        qDebug() << "Error opening file\n";
+        qDebug() << "Error opening mesh file\n";
     }
 
     QTextStream stream(&file);
@@ -79,6 +67,8 @@ void Mesh::load(const QString& path)
     QVector<QVector3D> vertices;
     QVector<QVector3D> normals;
     QVector<QVector2D> textures;
+
+    bool normal = true;
 
     while(!stream.atEnd())
     {
@@ -104,42 +94,43 @@ void Mesh::load(const QString& path)
                                         list[1].toFloat(),
                                         list[2].toFloat()));
         }
+
+        if(normals.empty())
+            normal = false;
+
         if(line.contains("f "))
         {
             QStringList list = line.remove("f ").split(" ");
-            if(list.size() == 3)
+            for(auto it : list)
             {
-                for(auto it : list)
+                QStringList point = it.split("/");
+                if(point.size() == 1)
                 {
-                    QStringList point = it.split("/");
-                    if(point.size() == 1)
-                    {
-                        mVertices.push_back(vertices[point[0].toInt() - 1].x());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].y());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].z());
-                    }
-                    if(point.size() == 2)
-                    {
-                        mVertices.push_back(vertices[point[0].toInt() - 1].x());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].y());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].z());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].x());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].y());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].z());
+                }
+                if(point.size() == 2)
+                {
+                    mVertices.push_back(vertices[point[0].toInt() - 1].x());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].y());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].z());
 
-                        mTextures.push_back(textures[point[1].toInt() - 1].x());
-                        mTextures.push_back(textures[point[1].toInt() - 1].y());
-                    }
-                    if(point.size() == 3)
-                    {
-                        mVertices.push_back(vertices[point[0].toInt() - 1].x());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].y());
-                        mVertices.push_back(vertices[point[0].toInt() - 1].z());
+                    mTextures.push_back(textures[point[1].toInt() - 1].x());
+                    mTextures.push_back(textures[point[1].toInt() - 1].y());
+                }
+                if(point.size() == 3)
+                {
+                    mVertices.push_back(vertices[point[0].toInt() - 1].x());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].y());
+                    mVertices.push_back(vertices[point[0].toInt() - 1].z());
 
-                        mTextures.push_back(textures[point[1].toInt() - 1].x());
-                        mTextures.push_back(textures[point[1].toInt() - 1].y());
+                    mTextures.push_back(textures[point[1].toInt() - 1].x());
+                    mTextures.push_back(textures[point[1].toInt() - 1].y());
 
-                        mNormals.push_back(normals[point[2].toInt() - 1].x());
-                        mNormals.push_back(normals[point[2].toInt() - 1].y());
-                        mNormals.push_back(normals[point[2].toInt() - 1].z());
-                    }
+                    mNormals.push_back(normals[point[2].toInt() - 1].x());
+                    mNormals.push_back(normals[point[2].toInt() - 1].y());
+                    mNormals.push_back(normals[point[2].toInt() - 1].z());
                 }
             }
         }
