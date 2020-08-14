@@ -1,6 +1,8 @@
 #pragma once
 #include <QSharedPointer>
 #include <QOpenGLContext>
+#include <QDir>
+#include <QCoreApplication>
 
 #include "shader.h"
 #include "mesh.h"
@@ -10,8 +12,8 @@
 class Object
 {
 protected:
-    QSharedPointer<Mesh> mesh;
-    QSharedPointer<Shader> shader;
+    Mesh* mesh;
+    Shader* shader;
 
     QVector3D position;
     float scale;
@@ -22,13 +24,20 @@ protected:
     static int nextId;
 
 public:
-    Object(QVector3D pos, float scale) {
+    Object(QVector3D pos, float scale)
+    {
         position = pos;
         this->scale = scale;
         this->id = nextId++;
     }
 
-    virtual void draw(Camera camera);
+    virtual ~Object()
+    {
+        delete mesh;
+        delete shader;
+    }
+
+    void draw(Camera* camera) const;
 
     QString getName();
     int getId();

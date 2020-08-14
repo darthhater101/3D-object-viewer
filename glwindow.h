@@ -11,7 +11,7 @@
 class GLWindow : public QOpenGLWidget
 {
 private:
-    QVector<Object> scene;
+    QVector<Object*> scene;
     Camera* camera;
     QTimer t;
 
@@ -34,11 +34,10 @@ public:
     void paintGL() override;
     void resizeGL(int w, int h) override;
 
-    void addObject(const Object &object);
+    void addObject(Object *object);
     void deleteObject(const int id);
 
-    void setCurrentScene(const QVector<Object> scene);
-    QVector<Object> getCurrentScene();
+    QVector<Object*> getCurrentScene();
 
 private:
     void drawScene();

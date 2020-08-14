@@ -50,4 +50,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     shaders/basic.frag \
-    shaders/basic.vert
+    shaders/basic.vert \
+    meshes/cube.obj
+
+RESOURCES +=

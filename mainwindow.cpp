@@ -21,11 +21,11 @@ void MainWindow::fillList()
 {
     auto objectList = ui->openGLWidget->getCurrentScene();
     ui->objectsList->clear();
-    for(auto iter : objectList)
+    for(auto& iter : objectList)
     {
         ListItem *item = new ListItem();
-        item->setId(iter.getId());
-        item->setText(iter.getName());
+        item->setId(iter->getId());
+        item->setText(iter->getName());
         ui->objectsList->addItem(item);
     }
 }
@@ -43,7 +43,7 @@ void MainWindow::on_addModelButton_clicked()
         float z = inputDialog->getPositionZ();
         float scale = inputDialog->getScale();
         ui->openGLWidget->makeCurrent();
-        ui->openGLWidget->addObject(Model(QVector3D(x, y, z), scale, fileName,
+        ui->openGLWidget->addObject(new Model(QVector3D(x, y, z), scale, fileName,
                                "C:/Users/razer/Documents/Modeller3D/shaders/basic"));
         fillList();
     }
@@ -61,7 +61,7 @@ void MainWindow::on_addCubeButton_clicked()
         float z = inputDialog->getPositionZ();
         float scale = inputDialog->getScale();
         ui->openGLWidget->makeCurrent();
-        ui->openGLWidget->addObject(Cube(QVector3D(x, y, z), scale));
+        ui->openGLWidget->addObject(new Cube(QVector3D(x, y, z), scale));
         fillList();
     }
     delete inputDialog;

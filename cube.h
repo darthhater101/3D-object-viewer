@@ -7,10 +7,8 @@ class Cube : public Object
 public:
     Cube(QVector3D pos, float scale) : Object(pos, scale)
     {
-        mesh = QSharedPointer<Mesh>(
-                    new Mesh ("C:/Users/razer/Documents/Modeller3D/meshes/cube.obj"));
-        shader = QSharedPointer<Shader>(
-                    new Shader("C:/Users/razer/Documents/Modeller3D/shaders/basic"));
+        mesh = new Mesh ("C:/Users/razer/Documents/Modeller3D/meshes/cube.obj");
+        shader = new Shader("C:/Users/razer/Documents/Modeller3D/shaders/basic");
 
         name = "Cube";
 

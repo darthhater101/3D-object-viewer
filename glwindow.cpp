@@ -36,15 +36,15 @@ void GLWindow::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-void GLWindow::addObject(const Object &object)
+void GLWindow::addObject(Object *object)
 {
     scene.push_back(object);
 }
 
 void GLWindow::drawScene()
 {
-    for(auto& it : scene)
-        it.draw(*camera);
+    for(const auto& it : scene)
+        it->draw(camera);
 }
 
 void GLWindow::mouseMoveEvent(QMouseEvent *event)
@@ -95,39 +95,29 @@ void GLWindow::mousePressEvent(QMouseEvent *event)
 void GLWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
-    {
+
         letfPressed = false;
-    }
     if(event->button() == Qt::RightButton)
-    {
         rightPressed = false;
-    }
 }
 
 void GLWindow::wheelEvent(QWheelEvent *event)
 {
     if(event->angleDelta().y() > 0)
         camera->zoom();
-        //camera->move(CameraMove::FORWARD);
     else if(event->angleDelta().y() < 0)
         camera->unzoom();
-        //camera->move(CameraMove::BACKWARD);
-    //update();
+    update();
 }
 
-void GLWindow::setCurrentScene(const QVector<Object> scene)
-{
-    this->scene = scene;
-}
-
-QVector<Object> GLWindow::getCurrentScene()
+QVector<Object*> GLWindow::getCurrentScene()
 {
     return scene;
 }
 
 void GLWindow::deleteObject(const int id)
 {
-    scene.erase(std::remove_if(scene.begin(), scene.end(), [&](Object object){
-                    return object.getId() == id;
+    scene.erase(std::remove_if(scene.begin(), scene.end(), [id](Object* object){
+                    return object->getId() == id;
     }));
 }

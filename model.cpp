@@ -2,8 +2,8 @@
 
 Model::Model(QVector3D pos, float scale, const QString& meshPath, const QString& shaderPath) : Object(pos, scale)
 {
-    mesh = QSharedPointer<Mesh>(new Mesh(meshPath));
-    shader = QSharedPointer<Shader>(new Shader(shaderPath));
+    mesh = new Mesh(meshPath);
+    shader = new Shader(shaderPath);
 
     name = "Model";
 

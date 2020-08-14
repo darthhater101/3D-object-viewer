@@ -57,8 +57,8 @@ Camera::Camera(float yaw, float pitch,
 
  void Camera::unzoom()
  {
-     if(zoomCoef <= 0)
-         zoomCoef = 0;
+     if(zoomCoef <= 0.5)
+         zoomCoef = 0.5;
      else
          zoomCoef -= 0.5f;
  }
